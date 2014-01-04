@@ -1,6 +1,3 @@
-# Hue of the light. This is a wrapping value between 0 and 65535. Both 0 and 65535 are red, 25500 is green and 46920 is blue.
-
-
 window.hue = {}
 hue.run = false
 
