@@ -1,0 +1,40 @@
+<script src="underscore.js"></script>
+<script src="jquery.js"></script>
+<script src="jquery-ui.js"></script>
+<script src="hue.js"></script>
+<style>
+html, body {
+    margin: 0;
+    height: 100%;
+}
+.slider {
+    height: 100%;
+    width: 100%;
+    background: -webkit-linear-gradient(left,
+        #EE2B2B 0%,
+        #EEEE2B 22%,
+        #EEEE2B 26%,
+        #2BEE2B 42%,
+        #2BEEEE 46%,
+        #2BEEEE 54%,
+        #2B2BEE 70.5%,
+        #EE2BEE 85%,
+        #EE2B2B 100%
+    );
+}
+</style>
+<div class="slider"></div>
+<script>
+    $('.slider').slider({
+        range: 'min',
+        value: 0,
+        step: 1,
+        min: 0,
+        max: 65535,
+        slide: function(event, ui) {
+            hue.setLightColorThrottled(2, { hue: ui.value });
+        }
+    });
+
+    $('.slider').find('.ui-slider-handle').unbind('keydown');
+</script>
