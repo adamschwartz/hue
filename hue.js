@@ -14,8 +14,14 @@
     return hue.run = false;
   };
   hue.cycle = function() {
-    hue.hue = Math.floor(Math.random() * 65535);
+    hue.hue = Math.floor(Math.random() * 25535) + 40000;
+    hue.setLightColor(1, {
+      hue: hue.hue
+    });
     hue.setLightColor(2, {
+      hue: hue.hue
+    });
+    hue.setLightColor(3, {
       hue: hue.hue
     });
     if (hue.run === false) {
