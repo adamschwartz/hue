@@ -1,6 +1,8 @@
 window.hue = {}
 hue.run = false
 
+hue.username = prompt 'Enter your HUE username (see the HUE API for more information):'
+
 $.get 'http://www.meethue.com/api/nupnp', (response) ->
     hue.id = response[0].id
     hue.internalipaddress = response[0].internalipaddress
@@ -23,7 +25,7 @@ hue.cycle = ->
 
 hue.setLightColor = (lightNumber, data) ->
     $.ajax
-        url: "http://#{ hue.internalipaddress }/api/adamschwartz/lights/#{ lightNumber }/state"
+        url: "http://#{ hue.internalipaddress }/api/#{ hue.username }/lights/#{ lightNumber }/state"
         type: 'PUT'
         data: JSON.stringify {
             on: true
