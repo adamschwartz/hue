@@ -2,10 +2,14 @@ window.hue = {}
 hue.run = false
 
 hue.username = prompt 'Enter your HUE username (see the HUE API for more information):'
+hue.internalipaddress = prompt 'Enter your IP address (leave empty to auto detect):'
 
-$.get 'http://www.meethue.com/api/nupnp', (response) ->
-    hue.id = response[0].id
-    hue.internalipaddress = response[0].internalipaddress
+unless hue.internalipaddress?.trim()
+    $.get 'http://www.meethue.com/api/nupnp', (response) ->
+        hue.id = response[0].id
+        hue.internalipaddress = response[0].internalipaddress
+        hue.debugger = "http://#{ hue.internalipaddress }/debug/clip.html"
+else
     hue.debugger = "http://#{ hue.internalipaddress }/debug/clip.html"
 
 hue.start = ->

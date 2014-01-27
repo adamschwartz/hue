@@ -1,11 +1,18 @@
 (function() {
+  var _ref;
   window.hue = {};
   hue.run = false;
-  $.get('http://www.meethue.com/api/nupnp', function(response) {
-    hue.id = response[0].id;
-    hue.internalipaddress = response[0].internalipaddress;
-    return hue["debugger"] = "http://" + hue.internalipaddress + "/debug/clip.html";
-  });
+  hue.username = prompt('Enter your HUE username (see the HUE API for more information):');
+  hue.internalipaddress = prompt('Enter your IP address (leave empty to auto detect):');
+  if (!((_ref = hue.internalipaddress) != null ? _ref.trim() : void 0)) {
+    $.get('http://www.meethue.com/api/nupnp', function(response) {
+      hue.id = response[0].id;
+      hue.internalipaddress = response[0].internalipaddress;
+      return hue["debugger"] = "http://" + hue.internalipaddress + "/debug/clip.html";
+    });
+  } else {
+    hue["debugger"] = "http://" + hue.internalipaddress + "/debug/clip.html";
+  }
   hue.start = function() {
     hue.run = true;
     return hue.cycle();
@@ -30,14 +37,14 @@
     return setTimeout(hue.cycle, 100);
   };
   hue.setLightColor = function(lightNumber, data) {
-    var _ref, _ref2;
+    var _ref2, _ref3;
     return $.ajax({
-      url: "http://" + hue.internalipaddress + "/api/adamschwartz/lights/" + lightNumber + "/state",
+      url: "http://" + hue.internalipaddress + "/api/" + hue.username + "/lights/" + lightNumber + "/state",
       type: 'PUT',
       data: JSON.stringify({
         on: true,
-        sat: (_ref = data.sat) != null ? _ref : 255,
-        bri: (_ref2 = data.bri) != null ? _ref2 : 255,
+        sat: (_ref2 = data.sat) != null ? _ref2 : 255,
+        bri: (_ref3 = data.bri) != null ? _ref3 : 255,
         hue: data.hue
       })
     });
