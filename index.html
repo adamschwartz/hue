@@ -6,8 +6,8 @@
     <title>&shy;</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAYAAABPYyMiAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAF0lEQVRIx2NgGAWjYBSMglEwCkbBSAcACBAAAeaR9cIAAAAASUVORK5CYII=" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" href="../css/base.css" />
-    <!-- link rel="stylesheet" href="/party.github.com/css/base.css" /--> <!-- local dev -->
+    <!-- link rel="stylesheet" href="../css/base.css" /-->
+    <link rel="stylesheet" href="/party.github.com/css/base.css" /> <!-- local dev -->
     <link rel="stylesheet" href="css/hue.css" />
 </head>
 <body>
@@ -17,6 +17,108 @@
     <canvas id="view1" width="960" height="540"></canvas> <!-- TODO - remove -->
 
     <div class="slider"></div>
+
+    <div class="wrap">
+        <div class="neons">
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+            <span><div></div></span>
+        </div>
+    </div>
+
+    <style>
+        .wrap {
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 100%;
+            width: 100%;
+            pointer-events: none;
+            background: #000;
+            box-sizing: border-box;
+            padding: 360px 60px;
+            white-space: nowrap;
+        }
+
+        .neons {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .neons span {
+            box-sizing: border-box;
+            width: 8%;
+            margin-left: 4%;
+            display: inline-block;
+            height: 100%;
+
+            -webkit-animation: slidey 10s linear infinite;
+            /*-webkit-animation: slidey 2s linear infinite;*/
+            -webkit-animation-direction: alternate;
+        }
+
+        .neons span div {
+            background: #fff;
+            border-radius: 100px;
+            width: 100%;
+            height: 100%;
+            /*-webkit-filter: blur(10px);*/
+        }
+
+        .neons[data-beat="0"] span {
+            border: 20px solid #000;
+        }
+        .neons[data-beat="1"] span {
+            border: 40px solid #000;
+        }
+        .neons[data-beat="2"] span {
+            border: 0px solid #000;
+        }
+        .neons[data-beat="3"] span {
+            border: 40px solid #000;
+        }
+
+        /*
+        .neons span:nth-child(1) { -webkit-animation-delay: 200ms; }
+        .neons span:nth-child(2) { -webkit-animation-delay: 400ms; }
+        .neons span:nth-child(3) { -webkit-animation-delay: 600ms; }
+        .neons span:nth-child(4) { -webkit-animation-delay: 800ms; }
+        .neons span:nth-child(5) { -webkit-animation-delay: 1000ms; }
+        .neons span:nth-child(6) { -webkit-animation-delay: 1200ms; }
+        .neons span:nth-child(7) { -webkit-animation-delay: 1400ms; }
+        .neons span:nth-child(8) { -webkit-animation-delay: 1600ms; }
+        .neons span:nth-child(9) { -webkit-animation-delay: 1800ms; }
+        */
+
+        .neons span:nth-child(1) { -webkit-animation-delay: 1s; }
+        .neons span:nth-child(2) { -webkit-animation-delay: 2s; }
+        .neons span:nth-child(3) { -webkit-animation-delay: 3s; }
+        .neons span:nth-child(4) { -webkit-animation-delay: 4s; }
+        .neons span:nth-child(5) { -webkit-animation-delay: 5s; }
+        .neons span:nth-child(6) { -webkit-animation-delay: 6s; }
+        .neons span:nth-child(7) { -webkit-animation-delay: 7s; }
+        .neons span:nth-child(8) { -webkit-animation-delay: 8s; }
+        .neons span:nth-child(9) { -webkit-animation-delay: 9s; }
+
+        @-webkit-keyframes slidey {
+            0% {
+                -webkit-transform: translate3d(0, -300px, 0);
+            }
+            100% {
+                -webkit-transform: translate3d(0, 300px, 0);
+            }
+        }
+
+    </style>
 
     <!-- Core -->
     <script src="js/underscore.js"></script>

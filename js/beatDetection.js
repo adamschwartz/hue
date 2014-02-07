@@ -92,20 +92,54 @@ BeatDetector.prototype.sample = function(analyser) {
 (function(){
   var detector = new BeatDetector();
 
+  var largeBeats = 0;
+  var lastBeatTime;
+  var timeSinceLastBeat;
+  var averageBeatDuration = 500; // start it off at 120bms
+
   function updateFrame() {
     requestAnimationFrame(updateFrame);
     updateVelocities();
   }
 
+  function gaussian(x, mean, variance) {
+    var firstPart = 1 / (variance * Math.sqrt(2 * Math.PI));
+    var secondPart = Math.pow(Math.E, - Math.pow((x - mean), 2) / (2 * Math.pow(variance, 2)));
+    if (x > mean) {
+      return firstPart;
+    } else {
+      return firstPart * secondPart;
+    }
+  }
+
+  window.gaussian = gaussian;
+
   function updateVelocities() {
     detector.sample(window.parent.analyser1);
 
     var beatSize;
+    var g;
+    var now = + new Date();
 
-    if (detector.beatChance > 1.6) {
+    if (lastBeatTime && largeBeats > 30) {
+      var center = lastBeatTime + averageBeatDuration;
+      var variance = averageBeatDuration / 4;
+      g = gaussian(now, center, variance);
+
+      // console.log(detector.beatChance, g);
+    } else {
+      g = 1;
+    }
+
+    g = 1 / 1000; // KILLLL
+    if (detector.beatChance * (g * 1000) > 1.6) {
       beatSize = 'large';
     } else {
       beatSize = 'small';
+    }
+
+    if (now - lastBeatTime < 300) {
+      return;
     }
 
     var hasTrigger = false;
@@ -117,6 +151,30 @@ BeatDetector.prototype.sample = function(analyser) {
             type: 'beat',
             beatSize: beatSize
           });
+
+          if (beatSize === 'large') {
+            console.log('large beat');
+            largeBeats += 1;
+          }
+
+          if (beatSize === 'large') {
+            if (!lastBeatTime) {
+              lastBeatTime = + new Date();
+            } else {
+              timeSinceLastBeat = + new Date() - lastBeatTime;
+              lastBeatTime = + new Date();
+              averageBeatDuration = (averageBeatDuration + lastBeatTime) / 2;
+            }
+          }
+
+          if (beatSize === 'large') {
+            if (largeBeats % 2 === 0) {
+              //$('body').css('background', '#000');
+            } else {
+              //$('body').css('background', '#fff');
+            }
+          }
+
           break;
         }
       }
